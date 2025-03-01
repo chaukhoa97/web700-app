@@ -1,10 +1,10 @@
 /*********************************************************************************
- * WEB700 – Assignment 03
+ * WEB700 – Assignment 04
  * I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
  * of this assignment has been copied manually or electronically from any other source
  * (including 3rd party web sites) or distributed to other students.
  *
- * Name: Dinh Khoa Chau Student ID: 174120238 Date: 2025-02-10
+ * Name: Dinh Khoa Chau Student ID: 174120238 Date: 2025-03-01
  *
  ********************************************************************************/
 
@@ -14,6 +14,10 @@ const collegeData = require('./modules/collegeData')
 
 const app = express()
 const HTTP_PORT = process.env.PORT || 8080
+
+// Middleware
+app.use(express.static('public')) // Serve static files from 'public' directory
+app.use(express.urlencoded({ extended: true })) // Parse URL-encoded bodies
 
 // Routes
 app.get('/', (req, res) => {
@@ -61,6 +65,22 @@ app.get('/student/:num', (req, res) => {
     .getStudentByNum(req.params.num)
     .then((student) => res.json(student))
     .catch(() => res.json({ message: 'no results' }))
+})
+
+app.get('/students/add', (req, res) => {
+  res.sendFile(path.join(__dirname, '/views/addStudent.html'))
+})
+
+app.post('/students/add', (req, res) => {
+  collegeData
+    .addStudent(req.body)
+    .then(() => {
+      res.redirect('/students')
+    })
+    .catch((error) => {
+      console.error(error)
+      res.status(500).send('Error adding student')
+    })
 })
 
 // 404 route - must be last!

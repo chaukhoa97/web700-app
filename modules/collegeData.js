@@ -93,6 +93,21 @@ function getStudentByNum(num) {
   })
 }
 
+function addStudent(studentData) {
+  return new Promise((resolve, reject) => {
+    // Set TA to false if undefined, true otherwise
+    studentData.TA = studentData.TA ? true : false
+
+    // Set student number
+    studentData.studentNum = dataCollection.students.length + 1
+
+    // Add to students array
+    dataCollection.students.push(studentData)
+
+    resolve()
+  })
+}
+
 module.exports = {
   initialize,
   getAllStudents,
@@ -100,4 +115,5 @@ module.exports = {
   getCourses,
   getStudentsByCourse,
   getStudentByNum,
+  addStudent,
 }
