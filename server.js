@@ -16,7 +16,7 @@ const app = express()
 const HTTP_PORT = process.env.PORT || 8080
 
 // Middleware
-app.use(express.static('public')) // Serve static files from 'public' directory
+app.use(express.static(__dirname + '/public'))
 app.use(express.urlencoded({ extended: true })) // Parse URL-encoded bodies
 
 // Routes
